@@ -1,0 +1,45 @@
+.center{
+	text-align: center;
+}
+.navbar{
+	background: #CCCCCC;
+	border-width: 0px 0px 1px 0px;
+	border-radius: 0;
+}
+.navLink{
+	color: #4A76FF !important;
+}
+
+.resultContainer{
+	width: 90%;
+}
+.result{
+	width: 33%;
+	height: 230px;
+	padding: 5px;
+	margin: 2px auto;
+	border:  1px solid grey;
+	display: inline-block;
+}
+.result img{
+	margin: 0 auto;
+	height:150px;
+	width: auto;
+	display:block;
+}
+.result *{
+	display: block;
+	margin: 0 auto;
+	padding: 0;
+	width: 100%;
+	text-align: center;
+	overflow: hidden;
+}
+.movie{
+	width: 90%;
+	margin:  0 auto;
+}
+.poster{
+	margin: 0 auto;
+	width: 300px;
+}

@@ -9,72 +9,71 @@ app.use(require('morgan')('dev'));
 app.set('view engine', 'ejs');
 app.use(ejsLayouts);
 
+app.use(express.static('public'));
 
 
-
-app.get('/', function(req, res) {
-	res.render('site/index');
+app.get('/', function (req, res) {
+    res.render('site/index');
 });
 
-app.get('/raw', function(req, res) {
-	var qs = {
-		s: 'star wars'
-	};
+app.get('/raw', function (req, res) {
+    var qs = {
+        s: 'star wars'
+    };
 
-	request({
-		url: 'http://www.omdbapi.com',
-		qs: qs
-	}, function(error, response, body) {
-		if (!error && response.statusCode == 200) {
-			var dataObj = JSON.parse(body);
-			res.send(dataObj.Search);
-		}
-	});
+    request({
+        url: 'http://www.omdbapi.com',
+        qs: qs
+    }, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var dataObj = JSON.parse(body);
+            res.send(dataObj.Search);
+        }
+    });
 });
 
-app.get('/results', function(req, res) {
-	var searchTerm = req.query.searchTerm; 
-	var qs = {
-		s: searchTerm
-	};
+app.get('/results', function (req, res) {
+    var searchTerm = req.query.searchTerm;
+    var qs = {
+        s: searchTerm
+    };
 
-	request({
-		url: 'http://www.omdbapi.com',
-		qs: qs
-	}, function(error, response, body) {
-				if (!error && response.statusCode == 200) {
+    request({
+        url: 'http://www.omdbapi.com',
+        qs: qs
+    }, function (error, response, body) {
 
-		      var dataObj = JSON.parse(body);
+        if (!error && response.statusCode == 200) {
 
-			res.render("site/results", {results: dataObj.Search});
-		}
-	});
+            var dataObj = JSON.parse(body);
+            res.render("site/results", { results: dataObj.Search });
+        }
+    });
 });
 
 
-app.get('/movie/:imdbID', function(req, res){
- 
-   var qs = {
-     i: req.params.imdbID,
-     plot: 'long',
-     r: 'json'
-   }
-   console.log(qs);
-   request({
-     url:'http://www.omdbapi.com/',
-     qs: qs
-   }, function(error, response, body){
-   			if (!error && response.statusCode == 200) {
+app.get('/:imdbID', function (req, res) {
 
-      var data = JSON.parse(body);
-      console.log(data);
-     res.send(dataObj);
-     res.render("movie", {movieData: data});
-   }
+    var qs = {
+        i: req.params.imdbID,
+        plot: 'full',
+        r: 'json'
+    }
+    console.log('MOVIE ' + qs);
+    request({
+        url: 'http://www.omdbapi.com/',
+        qs: qs
+    }, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
 
-   }); 
- 
- });
+            var dataObj = JSON.parse(body);
+            console.log(dataObj);
+            res.render("site/movie", { movieData: dataObj });
+        }
+
+    });
+
+});
 
 var server = app.listen(process.env.PORT || 3000);
 
